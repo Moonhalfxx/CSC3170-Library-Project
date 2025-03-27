@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../static/js/jquery-3.5.1.min.js"></script>
+    <title>Books List</title>
+    <link rel="stylesheet" href="../static/css/libr_frontpage.css">
+    <style>
+        .edit-button, .del-button {
+            color: black;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            transition: box-shadow 0.2s ease, transform 0.2s ease;
+            border-radius: 6px;
+        }
+
+        .edit-button {
+            background-color: pink;
+        }
+
+        .del-button {
+            background-color: #c0ffff;
+        }
+
+        .edit-button:hover, .del-button:hover {
+            box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
+            transform: translateY(-2px);
+        }
+        /* 按钮样式 */
+        .add-button {
+            background-color: #a5cc57; /* 按钮背景色 */
+            color: white; /* 按钮文字颜色 */
+            padding: 10px 20px; /* 按钮内边距 */
+            border: none; /* 去掉边框 */
+            border-radius: 5px; /* 圆角 */
+            font-size: 16px; /* 字体大小 */
+            cursor: pointer; /* 鼠标悬停时显示手指形状 */
+            position: absolute; /* 使用绝对定位 */
+            top: 40px; /* 距离顶部20px */
+            left: 25px; /* 距离左边20px */
+            z-index: 10; /* 确保按钮在其他元素之上 */
+        }
+
+        /* 按钮悬停时的效果 */
+        .add-button:hover {
+            background-color: #45a049; /* 悬停时改变按钮颜色 */
+        }
+
+        /* 表格容器样式 */
+        .table-container {
+            position: relative; /* 使按钮能够相对于容器定位 */
+        }
+
+        /* 模态框遮罩层 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        /* 模态框容器 */
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            width: 300px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        /* 标题样式 */
+        .modal-content h2 {
+            margin-top: 5px;
+            margin-bottom: 15px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        /* 输入框和单选框容器 */
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        /* 标签样式 */
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        /* 输入框样式 */
+        .form-group input[type="text"],
+        .form-group input[type="password"] {
+            width: 90%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        /* 单选按钮组 */
+        .form-group .radio-group {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        /* 提交按钮样式 */
+        .modal-content button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .modal-content button:hover {
+            background-color: #45a049;
+        }
+    </style>
+
+</head>
+<body>
+        <div class="nav">
+        <div class="nav-wrapper">
+            <div class="nav-item">
+                <a href="#" class="alink">
+                    <span>Resources</span>
+                    <img src="../static/img/drop.png" alt="">
+                </a>
+                <div class="nav-drop-down-wrapper">
+                    <div class="nav-drop-down">
+                        <div class="down-item">
+                            <div class="down-item-wrapper">
+                                <span>Books 📕</span>
+                            </div>
+                        </div>
+                        <div class="down-item">
+                            <div class="down-item-wrapper">
+                                <span>E-resources</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="alink">
+                    <span>Manage</span>
+                    <img src="../static/img/drop.png" alt="">
+                </a>
+                <div class="nav-drop-down-wrapper">
+                    <div class="nav-drop-down">
+                        <div class="down-item">
+                            <div class="down-item-wrapper">
+                                <span>Users 👩‍💻</span>
+                            </div>
+                        </div>
+                        <div class="down-item">
+                            <div class="down-item-wrapper">
+                                <span>Books 📚</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="alink">
+                    <span>Data</span>
+                    <img src="../static/img/drop.png" alt="">
+                </a>
+                <div class="nav-drop-down-wrapper">
+                    <div class="nav-drop-down">
+                        <div class="down-item">
+                            <div class="down-item-wrapper">
+                                <span>Borrowing Status 📊</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nav-drop-down">
+                        <div class="down-item">
+                            <div class="down-item-wrapper">
+                                <span>Analyze 🍉</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="alink">
+                    <span>Account</span>
+                    <img src="../static/img/drop.png" alt="">
+                </a>
+                <div class="nav-drop-down-wrapper">
+                    <div class="nav-drop-down">
+                        <div class="down-item">
+                            <div class="down-item-wrapper">
+                                <span>Personal Center 🩷</span>
+                            </div>
+                        </div>
+                        <div class="down-item">
+                            <div class="down-item-wrapper">
+                                <span>Log out</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $('.down-item-wrapper').click(function() {
+            var itemText = $(this).text().trim(); // 获取点击项的文本内容
+            if (itemText === 'Books 📕') {
+                // 如果点击的是 "Books 📕"
+                window.location.href = '/books'; // 跳转到 books 页面
+            }
+            else if (itemText === 'E-resources') {
+                // 如果点击的是 "E-resources"
+                window.location.href = '/e_resources'; // 跳转到 e-resources 页面
+            }
+            else if (itemText === 'Users 👩‍💻') {
+                window.location.href = '/users';
+            }
+            else if (itemText === 'Books 📚') {
+                window.location.href = '/books_manage';
+            }
+            else if (itemText === 'Personal Center 🩷') {
+                window.location.href = '/personal_center';
+            }
+            else if (itemText === 'Borrowing Status 📊') {
+                window.location.href = '/borrowing_status';
+            }
+            else if (itemText === 'Analyze 🍉') {
+                window.location.href = '/analyze';
+            }
+            else if (itemText === 'Log out') {
+                window.location.href = '/';
+            }
+        });
+    </script>
+
+    <div class="table-container">
+        <button class="add-button" onclick="addInfo()">Add</button>
+        <h1 style="text-align: center;">*･(=´∀｀) User List (´∀｀=)･*</h1>
+
+        <form method="POST" action="/user_search">
+            <input type="text" name="search" id="searchInput" placeholder="Search for users..." />
+            <button type="submit" class="search_button">Search</button>
+        </form>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>User_id</th>
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th>Role</th>
+                    <th>Operation</th>
+                </tr>
+            </thead>
+            <tbody id="userTable">
+                <!-- 使用 Jinja2 循环渲染每本书 -->
+                {% for user in users %}
+                <tr>
+                    <td>{{ user['user_id'] }}</td>
+                    <td>{{ user['username'] }}</td>
+                    <td>{{ user['password'] }}</td>
+                    <td>{{ user['role'] }}</td>
+                    <td>
+                        <button onclick="editInfo({{ user['user_id'] }}, '{{ user['username'] }}', '{{ user['role'] }}')" class="edit-button">Edit</button>
+                        <button onclick="deleteInfo({{ user['user_id'] }})" class="del-button">Del</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- 弹出窗口 -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal-content">
+            <h2>Add User</h2>
+            <form action="/user_add" method="POST">
+                <!-- Username -->
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+
+                <!-- Password -->
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+
+                <!-- Role 单选按钮 -->
+                <div class="form-group">
+                    <label for="role">Role</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="role" value="Librarian" required> Librarian</label>
+                        <label><input type="radio" name="role" value="Student" required> Student</label>
+                    </div>
+                </div>
+
+                <!-- 提交按钮 -->
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+    <!-- Edit User Modal -->
+    <div class="modal-overlay" id="editUserModal">
+        <div class="modal-content">
+            <h2>Edit User</h2>
+            <form action="/user_edit" method="POST">
+                <!-- 隐藏字段用于存储用户 ID -->
+                <input type="hidden" id="editUserId" name="user_id">
+
+                <div class="form-group">
+                    <label for="editUsername">Username</label>
+                    <input type="text" id="editUsername" name="username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="editPassword">Password</label>
+                    <input type="password" id="editPassword" name="password">
+                </div>
+
+                <div class="form-group">
+                    <label for="role">Role</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="role" value="Librarian" required> Librarian</label>
+                        <label><input type="radio" name="role" value="Student" required> Student</label>
+                    </div>
+                </div>
+
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 弹出确认删除窗口 -->
+    <div class="modal-overlay" id="delete">
+        <div class="modal-content">
+            <h2>Sure to delete?</h2>
+            <form action="/user_delete" method="POST">
+                <input type="hidden" id="deleteUserId" name="user_id">
+                <!-- 提交按钮 -->
+                <button type="submit">Delete</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function addInfo() {
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function editInfo(userId, username, role) {
+            // 设置隐藏的用户 ID
+            document.getElementById('editUserId').value = userId;
+
+            // 预填表单中的当前信息
+            document.getElementById('editUsername').value = username;
+
+            const roleInputs = document.getElementsByName('role');
+            roleInputs.forEach(input => {
+                input.checked = (input.value === role); // 根据role值选中对应的单选框
+            });
+
+            // 显示编辑模态框
+            document.getElementById('editUserModal').style.display = 'flex';
+        }
+
+        function deleteInfo(userId) {
+            document.getElementById('deleteUserId').value = userId;
+            document.getElementById('delete').style.display = 'flex';
+        }
+
+        // 关闭模态框的通用函数
+        function closeModal(event) {
+            // 如果点击的是模态框外的区域，则关闭模态框
+            const modal = event.target;
+            if (modal.classList.contains('modal-overlay') && modal.style.display === 'flex') {
+                modal.style.display = 'none';
+            }
+        }
+
+        // 监听点击事件，关闭对应的模态框
+        window.onclick = function(event) {
+            closeModal(event); // 判断并关闭模态框
+        }
+    </script>
+</body>
+</html>

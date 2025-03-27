@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- 引入css文件 -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+        <!-- 引入jquery -->
+        <script src="../static/js/jquery-3.5.1.min.js"></script>
+        <title>登录</title>
+    </head>
+    <body>
+        <!-- 最外层的大盒子 -->
+       <div class="box">
+        <!-- 滑动盒子 -->
+        <div class="pre-box">
+            <h1>WELCOME</h1>
+            <p>CUHK(SZ) Library Management System</p>
+            <div class="img-box">
+                <img src="../static/img/pink.jpg" alt="">
+            </div>
+        </div>
+        <!-- 注册盒子 -->
+        <div class="register-form">
+            <form action="/register" method="POST">
+                <!-- 标题盒子 -->
+                <div class="title-box">
+                    <h1>Register</h1>
+                </div>
+                <!-- 输入框盒子 -->
+                <div class="input-box">
+                    <input type="text" name="username" placeholder="Username">
+                    <input type="password" name="password" placeholder="Password">
+                </div>
+                <!-- 身份单选框 -->
+                <div class="role-selection">
+                    <label>
+                        <input type="radio" name="role" value="Librarian" class="role-radio">
+                        Librarian
+                    </label>
+                    <label>
+                        <input type="radio" name="role" value="Student" class="role-radio">
+                        Student
+                    </label>
+                </div>
+                <!-- 按钮盒子 -->
+                <div class="btn-box">
+                    <button>Register</button>
+                    <!-- 绑定点击事件 -->
+                    <p onclick="mySwitch()">Log in</p>
+                </div>
+            </form>
+        </div>
+        <!-- 登录盒子 -->
+        <div class="login-form">
+            <form class="login-form" action="/login" method="POST">
+                <!-- 标题盒子 -->
+                <div class="title-box">
+                    <h1>Log in</h1>
+                </div>
+                <!-- 输入框盒子 -->
+                <div class="input-box">
+                    <input type="text" name="username" placeholder="Username">
+                    <input type="password" name="password" placeholder="Password">
+                </div>
+                <!-- 身份单选框 -->
+                <div class="role-selection">
+                    <label>
+                        <input type="radio" name="role" value="Librarian" class="role-radio">
+                        Librarian
+                    </label>
+                    <label>
+                        <input type="radio" name="role" value="Student" class="role-radio">
+                        Student
+                    </label>
+                </div>
+                <!-- 按钮盒子 -->
+                <div class="btn-box">
+                    <button>Login</button>
+                    <!-- 绑定点击事件 -->
+                    <p onclick="mySwitch()">Register</p>
+                </div>
+            </form>
+        </div>
+       </div>
+       <script>
+            // 滑动的状态
+             let flag=true
+             const mySwitch=()=>{
+                if(flag){
+                    // 获取到滑动盒子的dom元素并修改它移动的位置
+                    $(".pre-box").css("transform","translateX(100%)")
+                    // 获取到滑动盒子的dom元素并修改它的背景颜色
+                    $(".pre-box").css("background-color","#c9e0ed")
+                    //修改图片的路径
+                    $("img").attr("src","../static/img/blue.jpg")
+
+                }
+                else {
+                    $(".pre-box").css("transform","translateX(0%)")
+                    $(".pre-box").css("background-color","#edd4dc")
+                    $("img").attr("src","../static/img/pink.jpg")
+                }
+                flag=!flag
+             }
+       </script>
+       <script>
+            const bubleCreate=()=>{
+                // 获取body元素
+                const body = document.body
+                // 创建泡泡元素
+                const buble = document.createElement('span')
+                // 设置泡泡半径
+                let r = Math.random()*5 + 25 //半径大小为25~30
+                // 设置泡泡的宽高
+                buble.style.width=r+'px'
+                buble.style.height=r+'px'
+                // 设置泡泡的随机起点
+                buble.style.left=Math.random()*innerWidth+'px'
+                // 为body添加buble元素
+                body.append(buble)
+                // 4s清除一次泡泡
+                setTimeout(()=>{
+                    buble.remove()
+                },4000)
+            }
+            // 每200ms生成一个泡泡
+            setInterval(() => {
+                bubleCreate()
+            }, 200);
+        </script>
+        <script>
+            window.onload = function() {
+                const errorMessage = "{{ error }}";
+                if (errorMessage) {
+                    alert(errorMessage);
+                }
+
+                const message = "{{ message }}";
+                if (message) {
+                    alert(message);
+                }
+            };
+        </script>
+    </body>
+</html>
