@@ -1,5 +1,7 @@
 # CUHK(SZ) Library Management System
 
+**Demo Video**: https://www.bilibili.com/video/BV1EjdWY1ETw/?spm_id_from=333.1007.top_right_bar_window_history.content.click&vd_source=66f5e08390cb5072cfd39f1b73f72c58
+
 ## Overview
 A Flask-based library management system supporting 2 roles (Librarians and Students) with 10+ core functions.
 
@@ -41,8 +43,8 @@ A Flask-based library management system supporting 2 roles (Librarians and Stude
 
 ## Technical Credits
 - CSS/HTML components adapted from:
-  - [Bilibili: Dropdown Menu Tutorial](https://www.bilibili.com)
-  - [Bilibili: Login Interface Tutorial](https://www.bilibili.com)  
+  - [[Bilibili: Dropdown Menu Tutorial](https://www.bilibili.com)](https://www.bilibili.com/video/BV1Lh4y1x7u7/?spm_id_from=333.1007.top_right_bar_window_history.content.click&vd_source=66f5e08390cb5072cfd39f1b73f72c58)
+  - [[Bilibili: Login Interface Tutorial](https://www.bilibili.com)  ](https://www.bilibili.com/video/BV1RB4y1h7bT/?spm_id_from=333.1007.top_right_bar_window_history.content.click&vd_source=66f5e08390cb5072cfd39f1b73f72c58)
 - Located in:
   - `static/` (CSS files)
   - `templates/` (login/registration UI)
